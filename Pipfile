@@ -1,0 +1,19 @@
+[[source]]
+name = "pypi"
+verify_ssl = true
+url = "https://pypi.python.org/simple"
+
+[dev-packages]
+pylint = "*"
+"pep8" = "*"
+
+[requires]
+python_version = "3.5"
+
+[packages]
+"psycopg2-binary" = "*"
+flask-sqlalchemy = "*"
+flask-admin = "*"
+flask-security = "*"
+flask-shell-ipython = "*"
+flask-babelex = "*"
