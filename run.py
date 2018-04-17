@@ -1,4 +1,5 @@
 from mg_incident import app
 
 
-app.run()
+if __name__ == '__main__':
+    app.run()
