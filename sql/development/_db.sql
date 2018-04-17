@@ -1,0 +1,1 @@
+CREATE DATABASE mgincident_dev WITH OWNER mgincident_web ENCODING 'UTF8';
