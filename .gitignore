@@ -1,0 +1,4 @@
+.vscode/
+local/
+instance/
+*.pyc
