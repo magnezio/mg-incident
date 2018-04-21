@@ -28,7 +28,6 @@ def create_app(config_name='development'):
     migrate.init_app(app, db)
     admin.init_app(app)
 
-    from mg_incident.account import models as models_account
     from mg_incident.account.core import bp as bp_account
     app.register_blueprint(bp_account, url_prefix='/account')
 
