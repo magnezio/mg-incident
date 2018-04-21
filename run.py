@@ -1,5 +1,7 @@
-from mg_incident import app
+from mg_incident import create_app
+
+app = create_app()
 
 
-if __name__ == '__main__':
-    app.run()
+
+# FLASK_APP=run.py flask run
