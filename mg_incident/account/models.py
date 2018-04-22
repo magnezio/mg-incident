@@ -54,6 +54,10 @@ class AppUser(db.Model, UserMixin):
     current_login_ip = Column(String(100))
     login_count = Column(Integer)
     confirmed_at = Column(DateTime())
+    tickets = relationship('Ticket', backref='created_by', foreign_keys='Ticket.created_by_id')
+    tickets_assigned_by = relationship('Ticket', backref='assigned_by', foreign_keys='Ticket.assigned_by_id')
+    tickets_assigned_to = relationship('Ticket', backref='assigned_to', foreign_keys='Ticket.assigned_to_id')
+    tickets_statuses = relationship('TicketStatus', backref='created_by')
 
     def __repr__(self):
         return "{} <{}>".format(self.username, self.email)

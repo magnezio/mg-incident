@@ -10,7 +10,8 @@ class AppUser(ModelView):
     column_list = ['username', 'email', 'active', 'last_login_at', \
         'last_login_ip', 'login_count', ]
     column_searchable_list = ['username', 'email', ]
-    column_filters = ['active', ]
+    column_filters = ['active', 'roles', ]
+    form_excluded_columns = ['password', ]
 
 
 class AppRole(ModelView):
