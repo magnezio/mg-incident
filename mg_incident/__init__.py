@@ -28,7 +28,13 @@ def create_app(config_name='development'):
     migrate.init_app(app, db)
     admin.init_app(app)
 
-    from mg_incident.account.core import bp as bp_account
-    app.register_blueprint(bp_account, url_prefix='/account')
+    # TODO: Define class BluePrintModelView for using flask-admin views with Blueprints
+    # from mg_incident.ticket.core import bp as bp_ticket
+    # app.register_blueprint(bp_ticket, url_prefix='/ticket')
+    # from mg_incident.account.core import bp as bp_account
+    # app.register_blueprint(bp_account, url_prefix='/account')
+
+    from mg_incident.ticket import core as ticket
+    from mg_incident.account import core as account
 
     return app
