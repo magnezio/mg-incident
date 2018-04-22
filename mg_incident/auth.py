@@ -2,14 +2,10 @@ from flask import abort, url_for, redirect, request
 from flask_security import Security, SQLAlchemySessionUserDatastore, current_user
 
 
-class UserRequiredMixin():
+class AuthRequiredMixin():
     def is_accessible(self):
-        if not current_user.is_active or not current_user.is_authenticated:
-            return False
-
-        if current_user.has_role('user') or current_user.has_role('admin'):
+        if current_user.is_active or current_user.is_authenticated:
             return True
-
         return False
 
     def _handle_view(self, name, **kwargs):
@@ -18,23 +14,27 @@ class UserRequiredMixin():
         """
         if not self.is_accessible():
             if current_user.is_authenticated:
-                # permission denied
                 abort(403)
             else:
-                # login
                 return redirect(url_for('security.login', next=request.url))
+
+
+class UserRequiredMixin(AuthRequiredMixin):
+    def is_accessible(self):
+        result = all([
+            super().is_accessible(), any([
+                current_user.has_role('user'), current_user.has_role('admin'),
+            ]),
+        ])
+        return result
 
 
 class AdminRequiredMixin(UserRequiredMixin):
     def is_accessible(self):
-        if not current_user.is_active or not current_user.is_authenticated:
-            return False
-
-        if current_user.has_role('admin'):
-            return True
-
-        return False
-
+        result = all([
+            super().is_accessible(), current_user.has_role('admin'),
+        ])
+        return result
 
 
 def do_security(app, db, AppUser, AppRole):
