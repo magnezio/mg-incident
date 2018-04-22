@@ -29,6 +29,7 @@ class Ticket(db.Model):
     assigned_by_id = Column(Integer, ForeignKey('appuser.id', ondelete='SET NULL'))
     assigned_to_id = Column(Integer, ForeignKey('appuser.id', ondelete='SET NULL'))
     ticket_statuses = relationship('TicketStatus', backref='ticket')
+    created_at = Column(DateTime, default=datetime.datetime.now, nullable=False)
 
 
 class TicketStatus(db.Model):
