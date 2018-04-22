@@ -4,8 +4,9 @@ from flask_security import Security, SQLAlchemySessionUserDatastore, current_use
 
 class AuthRequiredMixin():
     def is_accessible(self):
-        if not current_user.is_active or not current_user.is_authenticated:
-            return False
+        if current_user.is_active or current_user.is_authenticated:
+            return True
+        return False
 
     def _handle_view(self, name, **kwargs):
         """
@@ -20,19 +21,19 @@ class AuthRequiredMixin():
 
 class UserRequiredMixin(AuthRequiredMixin):
     def is_accessible(self):
-        result = all(
-            super().is_accessible(), any(
-                current_user.has_role('user'), current_user.has_role('admin')
-            )
-        )
+        result = all([
+            super().is_accessible(), any([
+                current_user.has_role('user'), current_user.has_role('admin'),
+            ]),
+        ])
         return result
 
 
 class AdminRequiredMixin(UserRequiredMixin):
     def is_accessible(self):
-        result = all(
-            super().is_accessible(), current_user.has_role('admin')
-        )
+        result = all([
+            super().is_accessible(), current_user.has_role('admin'),
+        ])
         return result
 
 
