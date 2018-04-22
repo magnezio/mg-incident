@@ -1,19 +1,20 @@
 from flask_admin.contrib.sqla import ModelView
 
 from mg_incident import db, admin
+from mg_incident.auth import UserRequiredMixin
 from mg_incident.ticket import models
 
 
-class TicketView(ModelView):
+class TicketView(UserRequiredMixin, ModelView):
     pass
 
 
-class StatusView(ModelView):
+class StatusView(UserRequiredMixin, ModelView):
     pass
 
 
-class TicketStatusView(ModelView):
-    pass
+class TicketStatusView(UserRequiredMixin, ModelView):
+    form_columns = ('ticket', 'status', 'description', 'created_by', )
 
 
 admin.add_view(TicketView(models.Ticket, db.session))

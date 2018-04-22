@@ -2,3 +2,5 @@
 .vscode/
 local/
 instance/
+temp/
+migrations/
