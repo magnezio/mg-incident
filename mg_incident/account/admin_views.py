@@ -12,9 +12,11 @@ class AppUser(ModelView):
     column_searchable_list = ['username', 'email', ]
     column_filters = ['active', ]
 
-class AppROle(ModelView):
-    pass
+
+class AppRole(ModelView):
+    column_list = ['name', 'description', ]
+    column_searchable_list = ['name', ]
 
 
 admin.add_view(AppUser(models.AppUser, db.session))
-admin.add_view(AppROle(models.AppRole, db.session))
+admin.add_view(AppRole(models.AppRole, db.session))
