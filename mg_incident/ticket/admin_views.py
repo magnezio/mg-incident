@@ -13,7 +13,7 @@ class StatusView(ModelView):
 
 
 class TicketStatusView(ModelView):
-    pass
+    form_columns = ('ticket', 'status', 'description', 'created_by', )
 
 
 admin.add_view(TicketView(models.Ticket, db.session))
