@@ -3,10 +3,11 @@ from flask_admin.contrib.sqla import ModelView
 from mg_incident import db
 from mg_incident import admin
 
+from mg_incident.auth import UserRequiredMixin, AdminRequiredMixin
 from . import models
 
 
-class AppUser(ModelView):
+class AppUser(AdminRequiredMixin, ModelView):
     column_list = ['username', 'email', 'active', 'last_login_at', \
         'last_login_ip', 'login_count', ]
     column_searchable_list = ['username', 'email', ]
@@ -14,7 +15,7 @@ class AppUser(ModelView):
     form_excluded_columns = ['password', ]
 
 
-class AppRole(ModelView):
+class AppRole(UserRequiredMixin, ModelView):
     column_list = ['name', 'description', ]
     column_searchable_list = ['name', ]
 
