@@ -11,12 +11,13 @@
 {% block access_control %}
 {% if current_user.is_authenticated %}
 <div class="navbar-text btn-group pull-right">
-    <a href="{{ url_for('security.logout') }}">Выйти</a>
+    <a href="{{ url_for('security.logout') }}">Logout</a>
+</div>
+{% else %}
+<div class="navbar-text btn-group pull-right">
+    <a href="{{ url_for('security.login') }}">Login</a>
 </div>
 {% endif %}
-<div class="navbar-text btn-group pull-right">
-    <a href="{{ url_for('security.login') }}">Войти</a>
-</div>
 {% endblock %}
 
 {% block page_body %}
