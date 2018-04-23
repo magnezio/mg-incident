@@ -42,4 +42,18 @@ def do_security(app, db, AppUser, AppRole):
         db.session, AppUser, AppRole
     )
     security = Security(app, datastore=user_datastore)
+
+    from mg_incident import admin
+    from flask_admin import helpers
+
+    @security.context_processor
+    def security_context_processor():
+        """For integrations flask-admin templates to flask-security (from official docs)"""
+        return dict(
+            admin_base_template=admin.base_template,
+            admin_view=admin.index_view,
+            h=helpers,
+            get_url=url_for
+        )
+
     return security

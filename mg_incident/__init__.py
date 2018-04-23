@@ -5,11 +5,9 @@ from flask_admin import Admin
 
 from mg_incident import auth
 
-
 db = SQLAlchemy()
-admin = Admin(name='MG Incidents', url='/')
+admin = Admin(name='MG Incidents', url='/', template_mode='bootstrap3')
 migrate = Migrate()
-
 
 from mg_incident.account import models as account_models
 from mg_incident.ticket import models as ticket_models
@@ -22,7 +20,7 @@ from mg_incident.feedback import admin_views
 def create_app(config_name='development'):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object('config.default')
-    app.config.from_pyfile('config.py')
+    # app.config.from_pyfile('config.py')
     config_obj_name = "config.{}".format(config_name)
     # TODO: ImportError
     app.config.from_object(config_obj_name)
@@ -30,4 +28,5 @@ def create_app(config_name='development'):
     auth.do_security(app, db, account_models.AppUser, account_models.AppRole)
     migrate.init_app(app, db)
     admin.init_app(app)
+
     return app
