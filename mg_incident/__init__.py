@@ -16,6 +16,7 @@ from mg_incident.ticket import models as ticket_models
 
 from mg_incident.account import admin_views as account_admin_views
 from mg_incident.ticket import admin_views as ticket_admin_views
+from mg_incident.feedback import admin_views
 
 
 def create_app(config_name='development'):
