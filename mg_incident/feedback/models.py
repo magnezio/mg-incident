@@ -7,3 +7,5 @@ from mg_incident import db
 class Feedback(db.Model):
     __tablename__ = 'feedback'
     id = Column(Integer, primary_key=True)
+    description = Column(String)
+
