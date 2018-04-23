@@ -17,9 +17,6 @@ from mg_incident.account import admin_views as account_admin_views
 from mg_incident.ticket import admin_views as ticket_admin_views
 from mg_incident.feedback import admin_views
 
-admin.add_link(MenuLink(name='Google', category='Links', url='http://www.google.com/'))
-admin.add_link(MenuLink(name='Mozilla', category='Links', url='http://mozilla.org/'))
-
 
 def create_app(config_name='development'):
     app = Flask(__name__, instance_relative_config=True)
