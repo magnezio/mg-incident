@@ -1,0 +1,32 @@
+{% extends 'admin/base.html' %}
+
+{% block head_css %}
+{{super()}}
+{% endblock head_css %}
+
+{% block head %}
+{% endblock head %}
+
+
+{% block access_control %}
+{% if current_user.is_authenticated %}
+<div class="navbar-text btn-group pull-right">
+    <a href="{{ url_for('security.logout') }}">Выйти</a>
+</div>
+{% endif %}
+<div class="navbar-text btn-group pull-right">
+    <a href="{{ url_for('security.login') }}">Войти</a>
+</div>
+{% endblock %}
+
+{% block page_body %}
+{{ super() }}
+{% endblock %}
+
+{% block messages %}
+{{super()}}
+{% endblock %}
+
+{% block tail %}
+{{super()}}
+{% endblock %}
