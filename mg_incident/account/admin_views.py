@@ -15,7 +15,7 @@ class AppUser(AdminRequiredMixin, ModelView):
     form_excluded_columns = ['password', ]
 
 
-class AppRole(UserRequiredMixin, ModelView):
+class AppRole(AdminRequiredMixin, ModelView):
     column_list = ['name', 'description', ]
     column_searchable_list = ['name', ]
 
