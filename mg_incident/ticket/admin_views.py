@@ -11,12 +11,13 @@ class FilterCreatedBy(BaseSQLAFilter):
             users = []
             try:
                 # TODO Problem are here.
+                # TODO UPD. Problem partly resolved. This code for future fix. Mystery!
                 # "No application found. Either work inside a view function or push an application context."
                 # I tried use it with current_app.app_context but unsuccessfully
                 # users = models.Ticket.query.all()
                 pass
             except Exception as e:
-                raise e
+                pass
             return [(user.id, str(user)) for user in users]
 
         super(FilterCreatedBy, self).__init__(column, name, get_users(), data_type)
@@ -31,10 +32,12 @@ class FilterCreatedBy(BaseSQLAFilter):
 
 class TicketView(UserRequiredMixin, ModelView):
     # TODO Options should be generated automatically, but now its problem to make query to db from current view
-    column_filters = [
-        FilterCreatedBy(models.Ticket.created_by_id, 'Created By',
-                        options=[('1', 'User With ID 1'), ('2', 'User with ID 2, etc..')])
-    ]
+    # TODO UPD. Problem partly resolved. This code for future fix. Mystery!
+    # column_filters = [
+    #     FilterCreatedBy(models.Ticket.created_by_id, 'Created By',
+    #                     options=[('1', 'User With ID 1'), ('2', 'User with ID 2, etc..')])
+    # ]
+    column_filters = ('created_by.username', 'assigned_by.username', 'assigned_to.username',)
 
 
 class StatusView(UserRequiredMixin, ModelView):
