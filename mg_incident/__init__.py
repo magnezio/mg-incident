@@ -21,7 +21,6 @@ from mg_incident.feedback import admin_views
 def create_app(config_name='development'):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object('config.default')
-    # app.config.from_pyfile('config.py')
     config_obj_name = "config.{}".format(config_name)
     # TODO: ImportError
     app.config.from_object(config_obj_name)
