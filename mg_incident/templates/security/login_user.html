@@ -1,14 +1,6 @@
 {% extends 'admin/master.html' %}
-
-<!--
-TODO Оно не загрузится - это ок. Т.к. шаблон просто копипаста, как я понял, шаблона с гитхаба.
-Шаблон ничего не знает про макросы.
-Я предлагаю использоватью flask bootstrap - там много разных полезных сниппетов.
--->
-
 {% from "security/_macros.html" import render_field, render_field_with_errors, render_checkbox_field %}
 {% include "security/_messages.html" %}
-
 {% block body %}
 {{ super() }}
 <div class="row-fluid">
@@ -23,7 +15,10 @@ TODO Оно не загрузится - это ок. Т.к. шаблон про�
                 {{ render_field(login_user_form.next) }}
                 {{ render_field(login_user_form.submit, class="btn btn-primary") }}
             </form>
-            <p>Not yet signed up? Please <a href="{{ url_for('security.register') }}">register for an account</a>.</p>
+            {#
+                <!-- ToDo: Sign Up -->
+                <!-- <p>Not yet signed up? Please <a href="{{ url_for('security.register') }}">register for an account</a>.</p> -->
+            #}
         </div>
     </div>
 </div>
