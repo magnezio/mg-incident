@@ -10,11 +10,11 @@ class TicketView(UserRequiredMixin, ModelView):
 
 
 class StatusView(UserRequiredMixin, ModelView):
-    pass
+    form_excluded_columns = ('predefined',)
 
 
 class TicketStatusView(UserRequiredMixin, ModelView):
-    form_columns = ('ticket', 'status', 'description', 'created_by', )
+    form_columns = ('ticket', 'status', 'description', 'created_by',)
 
 
 admin.add_view(TicketView(models.Ticket, db.session))

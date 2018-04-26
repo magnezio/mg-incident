@@ -1,14 +1,11 @@
 import datetime
 
-from sqlalchemy import Column, PrimaryKeyConstraint, ForeignKey, \
+from sqlalchemy import Column, ForeignKey, \
         Integer, String, Boolean, DateTime
 
-from sqlalchemy.orm import relationship, backref
+from sqlalchemy.orm import relationship
 
 from mg_incident import db
-
-
-from mg_incident.account.models import AppUser
 
 
 class Status(db.Model):
@@ -17,6 +14,7 @@ class Status(db.Model):
     name = Column(String(255), unique=True, nullable=False)
     description = Column(String(255))
     ticket_statuses = relationship('TicketStatus', backref='status')
+    predefined = Column(Boolean, default=False)
 
 
 class Ticket(db.Model):
@@ -36,9 +34,9 @@ class TicketStatus(db.Model):
     __tablename__ = 'ticket_status'
     id = Column(Integer, primary_key=True)
     description = Column(String(255))
-    ticket_id = Column(Integer, ForeignKey('ticket.id', on_delete='CASCADE'), 
+    ticket_id = Column(Integer, ForeignKey('ticket.id', on_delete='CASCADE'),
                        nullable=False)
-    status_id = Column(Integer, ForeignKey('status.id', on_delete='SET NULL'), 
+    status_id = Column(Integer, ForeignKey('status.id', on_delete='SET NULL'),
                        nullable=False)
     created_by_id = Column(Integer, ForeignKey('appuser.id', ondelete='SET NULL'),
                            nullable=False)
