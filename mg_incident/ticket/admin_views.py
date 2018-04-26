@@ -13,9 +13,15 @@ class TicketView(UserRequiredMixin, ModelView):
 
 
 class StatusView(UserRequiredMixin, ModelView):
+    form_excluded_columns = ('predefined',)
+
     def on_model_delete(self, model):
         if model.predefined:
             raise ValidationError('Predefined status can not be deleted.')
+
+    def on_model_change(self, form, model, is_created):
+        if model.predefined:
+            raise ValidationError('Predefined status can not be changed.')
 
     def delete_model(self, model):
         """
@@ -43,8 +49,6 @@ class StatusView(UserRequiredMixin, ModelView):
             self.after_model_delete(model)
 
         return True
-
-    form_excluded_columns = ('predefined',)
 
 
 class TicketStatusView(UserRequiredMixin, ModelView):
