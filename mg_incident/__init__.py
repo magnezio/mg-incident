@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_admin.menu import MenuLink
+from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_admin import Admin
@@ -7,6 +7,7 @@ from flask_admin import Admin
 from mg_incident import auth
 
 db = SQLAlchemy()
+mail = Mail()
 admin = Admin(name='MG Incidents', url='/', template_mode='bootstrap3', base_template='base.html')
 migrate = Migrate()
 
@@ -25,6 +26,7 @@ def create_app(config_name='development'):
     # TODO: ImportError
     app.config.from_object(config_obj_name)
     db.init_app(app)
+    mail.init_app(app)
     auth.do_security(app, db, account_models.AppUser, account_models.AppRole)
     migrate.init_app(app, db)
     admin.init_app(app)
