@@ -82,7 +82,7 @@ class AppUser(db.Model, UserMixin):
     tickets = relationship('Ticket', backref='created_by', foreign_keys='Ticket.created_by_id')
     tickets_assigned_by = relationship('Ticket', backref='assigned_by', foreign_keys='Ticket.assigned_by_id')
     tickets_assigned_to = relationship('Ticket', backref='assigned_to', foreign_keys='Ticket.assigned_to_id')
-    tickets_statuses = relationship('TicketStatus', backref='created_by')
+    tickets_statuses = relationship('TicketStatusTracking', backref='created_by')
 
     def __repr__(self):
         return "{} <{}>".format(self.username, self.email)
