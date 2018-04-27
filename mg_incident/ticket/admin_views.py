@@ -10,6 +10,7 @@ class TicketView(UserRequiredMixin, ModelView):
 
 
 class TicketStatusView(UserRequiredMixin, ModelView):
+    column_list = ('name', 'description', 'user_roles')
     pass
 
 
