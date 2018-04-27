@@ -21,7 +21,9 @@ class AppRole(AdminRequiredMixin, ModelView):
 
 
 class AppRoleStatus(AdminRequiredMixin, ModelView):
-    pass
+    column_list = ['name', 'description', 'roles', ]
+    column_searchable_list = ['name', 'roles.name', ]
+    column_filters = ['name', 'roles.name', ]
 
 
 admin.add_view(AppUser(models.AppUser, db.session))

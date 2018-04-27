@@ -11,11 +11,14 @@ class TicketView(UserRequiredMixin, ModelView):
 
 class TicketStatusView(UserRequiredMixin, ModelView):
     column_list = ('name', 'description', 'user_roles')
-    pass
+    column_searchable_list = ('name', 'user_roles.name')
+    column_filters = ('name', 'user_roles.name')
 
 
 class TicketStatusTrackingView(UserRequiredMixin, ModelView):
-    form_columns = ('ticket', 'ticket_status', 'description', 'created_by', 'created_at')
+    form_columns = ('ticket', 'ticket_status', 'description', 'created_by', 'created_at',)
+    column_filters = ('ticket.name', 'ticket_status.name', 'description', 'created_by.username',)
+    column_searchable_list = ('ticket.id', 'ticket_status.name', 'description',)
 
 
 admin.add_view(TicketView(models.Ticket, db.session))
