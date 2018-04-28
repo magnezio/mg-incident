@@ -1,7 +1,10 @@
 import datetime
+
 from sqlalchemy import Column, ForeignKey, \
         Integer, String, Boolean, DateTime
-from sqlalchemy.orm import relationship
+
+from sqlalchemy.orm import relationship, backref
+
 from mg_incident import db
 
 
@@ -31,6 +34,10 @@ class Ticket(db.Model):
     assigned_to_id = Column(Integer, ForeignKey('appuser.id', ondelete='SET NULL'))
     ticket_statuses = relationship('TicketStatus', backref='ticket')
     created_at = Column(DateTime, default=datetime.datetime.now, nullable=False)
+
+    # self-referential
+    parent_id = Column(Integer, ForeignKey('ticket.id'))
+    children = relationship('Ticket', backref=backref('parent', remote_side=[id]))
 
     def __repr__(self):
         description = ' '
