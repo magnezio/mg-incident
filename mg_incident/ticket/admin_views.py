@@ -44,6 +44,12 @@ class TicketView(UserRequiredMixin, ModelView):
 
         return True
 
+# =======
+
+class TicketStatusTrackingView(UserRequiredMixin, ModelView):
+    form_columns = ('ticket', 'ticket_status', 'description', 'created_by', 'created_at')
+    
+# =======
 
 class StatusView(UserRequiredMixin, ModelView):
     form_excluded_columns = ('predefined',)
@@ -109,5 +115,5 @@ class TicketStatusView(UserRequiredMixin, ModelView):
 
 
 admin.add_view(TicketView(models.Ticket, db.session))
-admin.add_view(StatusView(models.Status, db.session))
 admin.add_view(TicketStatusView(models.TicketStatus, db.session))
+admin.add_view(TicketStatusTrackingView(models.TicketStatusTracking, db.session))

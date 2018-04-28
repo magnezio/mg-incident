@@ -3,24 +3,21 @@ import datetime
 from sqlalchemy import Column, ForeignKey, \
         Integer, String, Boolean, DateTime
 
-from sqlalchemy.orm import relationship, backref
+from sqlalchemy.orm import relationship
 
 from mg_incident import db
 
 
-class Status(db.Model):
-    __tablename__ = 'status'
+class TicketStatus(db.Model):
+    __tablename__ = 'ticket_status'
     id = Column(Integer, primary_key=True)
     name = Column(String(255), unique=True, nullable=False)
     description = Column(String(255))
-    ticket_statuses = relationship('TicketStatus', backref='status')
+    ticket_statuses_tracking = relationship('TicketStatusTracking', backref='ticket_status')
     predefined = Column(Boolean, default=False)
 
     def __repr__(self):
-        description = ' '
-        if self.description:
-            description = ' (' + str(self.description) + ') '
-        return self.name + description
+        return self.name
 
 
 class Ticket(db.Model):
@@ -32,7 +29,7 @@ class Ticket(db.Model):
                            nullable=False)
     assigned_by_id = Column(Integer, ForeignKey('appuser.id', ondelete='SET NULL'))
     assigned_to_id = Column(Integer, ForeignKey('appuser.id', ondelete='SET NULL'))
-    ticket_statuses = relationship('TicketStatus', backref='ticket')
+    ticket_statuses_tracking = relationship('TicketStatusTracking', backref='ticket')
     created_at = Column(DateTime, default=datetime.datetime.now, nullable=False)
 
     # self-referential
@@ -46,19 +43,14 @@ class Ticket(db.Model):
         return '<id: {}> {} {} <created by: >'.format(self.id, self.name, description, self.created_by.username)
 
 
-class TicketStatus(db.Model):
-    __tablename__ = 'ticket_status'
+class TicketStatusTracking(db.Model):
+    __tablename__ = 'ticket_status_tracking'
     id = Column(Integer, primary_key=True)
     description = Column(String(255))
+    created_at = Column(DateTime, default=datetime.datetime.now, nullable=False)
     ticket_id = Column(Integer, ForeignKey('ticket.id', on_delete='CASCADE'),
                        nullable=False)
-    status_id = Column(Integer, ForeignKey('status.id', on_delete='SET NULL'),
-                       nullable=False)
+    ticket_status_id = Column(Integer, ForeignKey('ticket_status.id', on_delete='SET NULL'),
+                              nullable=False)
     created_by_id = Column(Integer, ForeignKey('appuser.id', ondelete='SET NULL'),
                            nullable=False)
-
-    def __repr__(self):
-        description = ' '
-        if self.description:
-            description = ' (' + str(self.description) + ') '
-        return '{} {}'.format(self.id, description)
