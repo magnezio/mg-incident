@@ -1,10 +1,7 @@
 import datetime
-
 from sqlalchemy import Column, ForeignKey, \
-    Integer, String, DateTime
-
+        Integer, String, Boolean, DateTime
 from sqlalchemy.orm import relationship
-
 from mg_incident import db
 
 
@@ -14,6 +11,7 @@ class Status(db.Model):
     name = Column(String(255), unique=True, nullable=False)
     description = Column(String(255))
     ticket_statuses = relationship('TicketStatus', backref='status')
+    predefined = Column(Boolean, default=False)
 
     def __repr__(self):
         description = ' '

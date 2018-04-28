@@ -3,7 +3,7 @@ from flask_admin.contrib.sqla import ModelView
 from mg_incident import db
 from mg_incident import admin
 
-from mg_incident.auth import UserRequiredMixin, AdminRequiredMixin
+from mg_incident.auth import AdminRequiredMixin
 from . import models
 
 
