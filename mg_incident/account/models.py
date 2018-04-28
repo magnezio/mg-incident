@@ -1,5 +1,3 @@
-import datetime
-
 from sqlalchemy import Column, PrimaryKeyConstraint, ForeignKey, \
     Integer, String, Boolean, DateTime
 
@@ -33,6 +31,7 @@ approle_approlestatus = db.Table(
     PrimaryKeyConstraint('approle_id', 'approlestatus_id')
 )
 
+
 approlestatus_ticketstatus = db.Table(
     'approlestatus_ticketstatus',
     Column(
@@ -57,6 +56,22 @@ class AppRole(db.Model, RoleMixin):
         lazy='dynamic',
         secondary=appuser_approle
     )
+    predefined = Column(Boolean, default=False)
+
+    def __repr__(self):
+        return self.name
+
+
+class AppRoleStatus(db.Model):
+    __tablename__ = 'approlestatus'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50), unique=True, nullable=False)
+    description = Column(String(255), unique=True, nullable=False)
+
+    roles = relationship('AppRole',
+                         uselist=True,
+                         backref=backref('statuses', lazy='dynamic'),
+                         secondary=approle_approlestatus)
 
     def __repr__(self):
         return self.name
