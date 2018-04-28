@@ -18,6 +18,12 @@ class TicketView(UserRequiredMixin, ModelView):
         if model.children:
             raise ValidationError("You can't deleting tickets that have child records")
 
+            
+# class TicketStatusView(UserRequiredMixin, ModelView):
+#     column_list = ('name', 'description', 'user_roles')
+#     column_searchable_list = ('name', 'user_roles.name')
+#     column_filters = ('name', 'user_roles.name')
+# =======
 # 
 # class TicketStatusView(UserRequiredMixin, ModelView):
 #     column_list = ('name', 'description', 'user_roles')
@@ -53,6 +59,9 @@ class TicketView(UserRequiredMixin, ModelView):
 # =======
 
 class TicketStatusTrackingView(UserRequiredMixin, ModelView):
+    form_columns = ('ticket', 'ticket_status', 'description', 'created_by', 'created_at',)
+    column_filters = ('ticket.name', 'ticket_status.name', 'description', 'created_by.username',)
+    column_searchable_list = ('ticket.id', 'ticket_status.name', 'description',)
     form_columns = ('ticket', 'ticket_status', 'description', 'created_by', 'created_at')
     
 # =======
