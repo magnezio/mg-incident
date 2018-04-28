@@ -1,7 +1,5 @@
-import datetime
-
 from sqlalchemy import Column, PrimaryKeyConstraint, ForeignKey, \
-        Integer, String, Boolean, DateTime
+    Integer, String, Boolean, DateTime
 
 from sqlalchemy.orm import relationship, backref
 
@@ -10,7 +8,6 @@ from flask_security import (
 )
 
 from mg_incident import db
-
 
 appuser_approle = db.Table(
     'appuser_approle',

@@ -2,7 +2,6 @@ from flask import flash
 from flask_admin.babel import gettext
 from flask_admin.contrib.sqla import ModelView
 from sqlalchemy.sql.functions import current_user
-
 from mg_incident import db, admin
 from mg_incident.auth import UserRequiredMixin
 from mg_incident.ticket import models
@@ -10,7 +9,7 @@ from flask_login import current_user
 
 
 class TicketView(UserRequiredMixin, ModelView):
-    pass
+    column_filters = ('created_by.username', 'assigned_by.username', 'assigned_to.username',)
 
 
 class StatusView(UserRequiredMixin, ModelView):
