@@ -1,5 +1,3 @@
-import datetime
-
 from sqlalchemy import Column, PrimaryKeyConstraint, ForeignKey, \
     Integer, String, Boolean, DateTime
 
@@ -46,6 +44,7 @@ class AppRole(db.Model, RoleMixin):
         lazy='dynamic',
         secondary=appuser_approle
     )
+    predefined = Column(Boolean, default=False)
 
     def __repr__(self):
         return self.name
