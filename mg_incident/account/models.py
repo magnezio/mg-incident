@@ -32,6 +32,18 @@ approle_approlestatus = db.Table(
 )
 
 
+approlestatus_ticketstatus = db.Table(
+    'approlestatus_ticketstatus',
+    Column(
+        'approlestatus_id', Integer, ForeignKey('approlestatus.id', ondelete='SET NULL')
+    ),
+    Column(
+        'ticket_status_id', Integer, ForeignKey('ticket_status.id', ondelete='SET NULL')
+    ),
+    PrimaryKeyConstraint('approlestatus_id', 'ticket_status_id')
+)
+
+
 class AppRole(db.Model, RoleMixin):
     __tablename__ = 'approle'
     id = Column(Integer, primary_key=True)
@@ -60,6 +72,25 @@ class AppRoleStatus(db.Model):
                          uselist=True,
                          backref=backref('statuses', lazy='dynamic'),
                          secondary=approle_approlestatus)
+
+    def __repr__(self):
+        return self.name
+
+
+class AppRoleStatus(db.Model):
+    __tablename__ = 'approlestatus'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50), unique=True, nullable=False)
+    description = Column(String(255), unique=True, nullable=False)
+
+    roles = relationship('AppRole',
+                         uselist=True,
+                         backref=backref('statuses', lazy='dynamic'),
+                         secondary=approle_approlestatus)
+
+    available_ticket_statuses = relationship('TicketStatus',
+                                             uselist=True,
+                                             secondary=approlestatus_ticketstatus)
 
     def __repr__(self):
         return self.name

@@ -18,31 +18,37 @@ class TicketView(UserRequiredMixin, ModelView):
         if model.children:
             raise ValidationError("You can't deleting tickets that have child records")
 
-    def delete_model(self, model):
-        """
-            Delete model.
-            :param model:
-                Model to delete
-        """
-        try:
-            self.on_model_delete(model)
-            if not model.children:
-                self.session.flush()
-                self.session.delete(model)
-                self.session.commit()
-            if model.children:
-                return False
-        except Exception as ex:
-            if not self.handle_view_exception(ex):
-                flash(gettext('Failed to delete record. %(error)s', error=str(ex)), 'error')
+# 
+# class TicketStatusView(UserRequiredMixin, ModelView):
+#     column_list = ('name', 'description', 'user_roles')
+#     pass
+# =======
+#     def delete_model(self, model):
+#         """
+#             Delete model.
+#             :param model:
+#                 Model to delete
+#         """
+#         try:
+#             self.on_model_delete(model)
+#             if not model.children:
+#                 self.session.flush()
+#                 self.session.delete(model)
+#                 self.session.commit()
+#             if model.children:
+#                 return False
+#         except Exception as ex:
+#             if not self.handle_view_exception(ex):
+#                 flash(gettext('Failed to delete record. %(error)s', error=str(ex)), 'error')
 
-            self.session.rollback()
+#             self.session.rollback()
 
-            return False
-        else:
-            self.after_model_delete(model)
+#             return False
+#         else:
+#             self.after_model_delete(model)
 
-        return True
+#         return True
+#
 
 # =======
 

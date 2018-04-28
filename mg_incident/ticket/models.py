@@ -6,6 +6,7 @@ from sqlalchemy import Column, ForeignKey, \
 from sqlalchemy.orm import relationship
 
 from mg_incident import db
+from mg_incident.account.models import approlestatus_ticketstatus
 
 
 class TicketStatus(db.Model):
@@ -14,6 +15,10 @@ class TicketStatus(db.Model):
     name = Column(String(255), unique=True, nullable=False)
     description = Column(String(255))
     ticket_statuses_tracking = relationship('TicketStatusTracking', backref='ticket_status')
+    user_roles = relationship('AppRoleStatus',
+                              uselist=True,
+                              secondary=approlestatus_ticketstatus,
+                              )
     predefined = Column(Boolean, default=False)
 
     def __repr__(self):
