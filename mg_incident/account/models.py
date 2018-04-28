@@ -20,6 +20,17 @@ appuser_approle = db.Table(
     PrimaryKeyConstraint('appuser_id', 'approle_id')
 )
 
+approle_approlestatus = db.Table(
+    'approle_approlestatus',
+    Column(
+        'approle_id', Integer, ForeignKey('approle.id', ondelete='SET NULL')
+    ),
+    Column(
+        'approlestatus_id', Integer, ForeignKey('approlestatus.id', ondelete='SET NULL')
+    ),
+    PrimaryKeyConstraint('approle_id', 'approlestatus_id')
+)
+
 
 class AppRole(db.Model, RoleMixin):
     __tablename__ = 'approle'
@@ -34,6 +45,21 @@ class AppRole(db.Model, RoleMixin):
         secondary=appuser_approle
     )
     predefined = Column(Boolean, default=False)
+
+    def __repr__(self):
+        return self.name
+
+
+class AppRoleStatus(db.Model):
+    __tablename__ = 'approlestatus'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50), unique=True, nullable=False)
+    description = Column(String(255), unique=True, nullable=False)
+
+    roles = relationship('AppRole',
+                         uselist=True,
+                         backref=backref('statuses', lazy='dynamic'),
+                         secondary=approle_approlestatus)
 
     def __repr__(self):
         return self.name

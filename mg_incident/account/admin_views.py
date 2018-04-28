@@ -82,5 +82,10 @@ class AppRole(AdminRequiredMixin, ModelView):
         return True
 
 
+class AppRoleStatus(AdminRequiredMixin, ModelView):
+    pass
+
+
 admin.add_view(AppUser(models.AppUser, db.session))
 admin.add_view(AppRole(models.AppRole, db.session))
+admin.add_view(AppRoleStatus(models.AppRoleStatus, db.session))
