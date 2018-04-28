@@ -1,7 +1,7 @@
 import datetime
 
 from sqlalchemy import Column, ForeignKey, \
-    Integer, String, DateTime
+        Integer, String, Boolean, DateTime
 
 from sqlalchemy.orm import relationship, backref
 
@@ -14,6 +14,13 @@ class Status(db.Model):
     name = Column(String(255), unique=True, nullable=False)
     description = Column(String(255))
     ticket_statuses = relationship('TicketStatus', backref='status')
+    predefined = Column(Boolean, default=False)
+
+    def __repr__(self):
+        description = ' '
+        if self.description:
+            description = ' (' + str(self.description) + ') '
+        return self.name + description
 
 
 class Ticket(db.Model):
@@ -32,6 +39,12 @@ class Ticket(db.Model):
     parent_id = Column(Integer, ForeignKey('ticket.id'))
     children = relationship('Ticket', backref=backref('parent', remote_side=[id]))
 
+    def __repr__(self):
+        description = ' '
+        if self.description:
+            description = ' (' + str(self.description) + ') '
+        return '<id: {}> {} {} <created by: >'.format(self.id, self.name, description, self.created_by.username)
+
 
 class TicketStatus(db.Model):
     __tablename__ = 'ticket_status'
@@ -43,3 +56,9 @@ class TicketStatus(db.Model):
                        nullable=False)
     created_by_id = Column(Integer, ForeignKey('appuser.id', ondelete='SET NULL'),
                            nullable=False)
+
+    def __repr__(self):
+        description = ' '
+        if self.description:
+            description = ' (' + str(self.description) + ') '
+        return '{} {}'.format(self.id, description)
