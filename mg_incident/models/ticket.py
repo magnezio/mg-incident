@@ -21,7 +21,7 @@ class Ticket(db.Model):
                             nullable=False)
     assigned_to_id = Column(Integer, ForeignKey('appuser.id', ondelete='SET NULL'),
                             nullable=False)
-    from_ticket_id = Column(Integer, ForeignKey('ticket.id'), ondelete='SET NULL')
+    from_ticket_id = Column(Integer, ForeignKey('ticket.id', ondelete='SET NULL'))
     created_by = relationship(
         AppUser, backref=backref('tickets_created_by', lazy='dynamic'), lazy='joined'
     )
