@@ -5,7 +5,7 @@ from wtforms import ValidationError
 
 from mg_incident import db, admin
 from mg_incident.auth import UserRequiredMixin
-from mg_incident.models import Ticket, TicketStatus
+from mg_incident.models import Ticket, TicketStatus, AppRole
 from mg_incident.admin_views import formatters
 
 
@@ -37,9 +37,10 @@ class TicketView(UserRequiredMixin, ModelView):
 
 
 class TicketStatusView(UserRequiredMixin, ModelView):
-    column_list = ['name', 'description', ]
+    column_list = ['name', 'description', 'approles', ]
     column_searchable_list = ['name', 'description', ]
-    form_columns = ['name', 'description', ]
+    column_filters = ['approles.name', ]
+    form_columns = ['name', 'description', 'approles', ]
     can_view_details = True
     can_delete = True
 
