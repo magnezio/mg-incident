@@ -81,11 +81,13 @@ That created a db user **mgincident_app** with password **masterkey** (configure
 
 `export FLASK_APP=run.py`
 
-**Insert predefined roles and ticket statuses:**
+**Insert predefined roles, ticket statuses and associate the predefined roles with predefined ticket statuses:**
 
 `flask insert_predefined_roles_for_users`
 
 `flask insert_predefined_ticket_statuses`
+
+`flask setup_predefined_roles`
 
 **Apply migrations**
 
