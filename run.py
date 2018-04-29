@@ -3,7 +3,7 @@ import click
 from mg_incident import create_app
 
 
-app = create_app()
+app = create_app('production')
 
 
 @app.cli.command()
