@@ -40,8 +40,9 @@ class Ticket(db.Model):
     )
     from_ticket = relationship(
         'Ticket',
-        backref=backref('chained_tickets', remote_side=[id, ], uselist=True, lazy='dynamic'),
-        lazy='dynamic'
+        backref=backref('chained_tickets', remote_side=[id, ], uselist=True, lazy='subquery'),
+        uselist=False,
+        lazy='joined'
     )
     # ticket_statuses_tracking = relationship('TicketStatusTracking', backref='ticket')
     # children = relationship('Ticket', backref=backref('parent', remote_side=[id]))
