@@ -23,16 +23,25 @@ class Ticket(db.Model):
                             nullable=False)
     from_ticket_id = Column(Integer, ForeignKey('ticket.id', ondelete='SET NULL'))
     created_by = relationship(
-        AppUser, backref=backref('tickets_created_by', lazy='dynamic'), lazy='joined'
+        AppUser,
+        backref=backref('tickets_created_by', lazy='dynamic'),
+        foreign_keys=[created_by_id, ],
+        lazy='joined'
     )
     assigned_by = relationship(
-        AppUser, backref=backref('tickets_assigned_by', lazy='dynamic'), lazy='joined'
+        AppUser, backref=backref('tickets_assigned_by', lazy='dynamic'),
+        foreign_keys=[assigned_by_id, ],
+        lazy='joined'
     )
     assigned_to = relationship(
-        AppUser, backref=backref('tickets_assigned_to', lazy='dynamic'), lazy='joined'
+        AppUser, backref=backref('tickets_assigned_to', lazy='dynamic'),
+        foreign_keys=[assigned_to_id, ],
+        lazy='joined'
     )
     from_ticket = relationship(
-        'Ticket', backref=backref('chained_tickets', lazy='dynamic'), lazy='dynamic'
+        'Ticket',
+        backref=backref('chained_tickets', remote_side=[id, ], uselist=True, lazy='dynamic'),
+        lazy='dynamic'
     )
     # ticket_statuses_tracking = relationship('TicketStatusTracking', backref='ticket')
     # children = relationship('Ticket', backref=backref('parent', remote_side=[id]))
