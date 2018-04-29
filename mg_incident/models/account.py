@@ -52,4 +52,4 @@ class AppUser(db.Model, UserMixin):
     confirmed_at = Column(DateTime())
 
     def __repr__(self):
-        return "{} <{}>".format(self.username, self.email)
+        return self.username

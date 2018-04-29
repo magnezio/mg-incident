@@ -1,20 +1,39 @@
 from flask_admin.contrib.sqla import ModelView
-from wtforms import ValidationError
+from flask_security import current_user
 from sqlalchemy.sql.functions import current_user
+from wtforms import ValidationError
 
 from mg_incident import db, admin
 from mg_incident.auth import UserRequiredMixin
 from mg_incident.models import Ticket
+from mg_incident.admin_views import formatters
 
 
 class TicketView(ModelView):
-    # form_columns = ('name', 'description', 'parent', 'children', 'ticket_statuses',
-    #                 'created_at', 'created_by', 'assigned_by', 'assigned_to')
-    # column_filters = ('created_by.username', 'assigned_by.username', 'assigned_to.username',)
+    column_list = ['id', 'name', 'from_ticket', 'assigned_to',
+                   'assigned_by', 'created_by', 'created_at', 'updated_at', ]
+    column_filters = [
+        'from_ticket.name',
+        'from_ticket.id',
+        'created_by.username',
+        'assigned_by.username',
+        'assigned_to.username',
+    ]
+    form_columns = ['name', 'description', 'assigned_to', 'from_ticket', ]
+    column_type_formatters = formatters.DEFAULT_FORMATTERS
+    can_view_details = True
+    can_delete = True
 
     def on_model_delete(self, model):
-        if model.children:
+        if model.chained_tickets:
             raise ValidationError("You can't deleting tickets that have child records")
+    
+    def on_model_change(self, form, model, is_created):
+        from flask_security import current_user
+        if is_created:
+            model.created_by = current_user
+        if not model.assigned_to == form.assigned_to:
+            model.assigned_by = current_user
 
             
 # class TicketStatusView(UserRequiredMixin, ModelView):
