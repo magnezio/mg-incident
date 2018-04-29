@@ -5,7 +5,7 @@ from wtforms import ValidationError
 
 from mg_incident import db, admin
 from mg_incident.auth import UserRequiredMixin
-from mg_incident.models import Ticket, TicketStatus, AppRole
+from mg_incident.models import Ticket, TicketStatus, TicketStatusTracking, AppRole
 from mg_incident.admin_views import formatters
 
 
@@ -53,14 +53,22 @@ class TicketStatusView(UserRequiredMixin, ModelView):
             raise ValidationError('Predefined status can not be changed.')
 
 
-# class TicketStatusTrackingView(UserRequiredMixin, ModelView):
-#     form_columns = ('ticket', 'ticket_status', 'description', 'created_by', 'created_at',)
-#     column_filters = ('ticket.name', 'ticket_status.name', 'description', 'created_by.username',)
-#     column_searchable_list = ('ticket.id', 'ticket_status.name', 'description',)
-#     form_columns = ('ticket', 'ticket_status', 'description', 'created_by', 'created_at')
+class TicketStatusTrackingView(UserRequiredMixin, ModelView):
+    form_columns = ['ticket', 'ticket_status', 'description', ]
+    column_filters = [
+        'ticket.name', 'ticket.id', 'ticket_status.name', 'created_by.username',
+    ]
+    column_searchable_list = ['description', ]
+    column_type_formatters = formatters.DEFAULT_FORMATTERS
+    
+    def on_model_change(self, form, model, is_created):
+        from flask_security import current_user
+        if is_created:
+            model.created_by = current_user
 
 
 admin.add_views(
     TicketView(Ticket, db.session),
     TicketStatusView(TicketStatus, db.session),
+    TicketStatusTrackingView(TicketStatusTracking, db.session)
 )
