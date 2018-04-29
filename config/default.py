@@ -3,6 +3,7 @@ import os
 
 DEBUG = False
 
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DB_USER = os.environ.get("MGI_DB_USER", "mgincident_app")
 DB_PASSWORD = os.environ.get("MGI_DB_PASSWORD")
@@ -18,7 +19,7 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 SECURITY_URL_PREFIX = ""
 SECURITY_PASSWORD_HASH = "pbkdf2_sha512"
-SECURITY_PASSWORD_SALT = "KJbGHUIFklaihHOIH809HGbldSsj8"
+SECURITY_PASSWORD_SALT = os.environ.get("SECURITY_PASSWORD_SALT")
 
 SECURITY_LOGIN_URL = "/login/"
 SECURITY_LOGOUT_URL = "/logout/"

@@ -11,9 +11,9 @@ mail = Mail()
 admin = Admin(name='MG Incidents', url='/', template_mode='bootstrap3', base_template='base.html')
 migrate = Migrate()
 
-
 from mg_incident import models
 from mg_incident import admin_views
+
 
 def create_app(config_name='development'):
     app = Flask(__name__, instance_relative_config=True)

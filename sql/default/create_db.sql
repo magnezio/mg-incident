@@ -1,0 +1,1 @@
+CREATE DATABASE mgincident WITH OWNER mgincident_app ENCODING 'UTF8';
