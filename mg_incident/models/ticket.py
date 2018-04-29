@@ -45,26 +45,25 @@ class Ticket(db.Model):
         lazy='joined'
     )
     # ticket_statuses_tracking = relationship('TicketStatusTracking', backref='ticket')
-    # children = relationship('Ticket', backref=backref('parent', remote_side=[id]))
 
     def __repr__(self):
         return self.name
 
 
-# class TicketStatus(db.Model):
-#     __tablename__ = 'ticket_status'
-#     id = Column(Integer, primary_key=True)
-#     name = Column(String(255), unique=True, nullable=False)
-#     description = Column(String(255))
-#     ticket_statuses_tracking = relationship('TicketStatusTracking', backref='ticket_status')
-#     # user_roles = relationship('AppRoleStatus',
-#     #                           uselist=True,
-#     #                           secondary=approlestatus_ticketstatus,
-#     #                           )
-#     predefined = Column(Boolean, default=False)
+class TicketStatus(db.Model):
+    __tablename__ = 'ticket_status'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(255), unique=True, nullable=False)
+    description = Column(String(255))
+    is_predefined = Column(Boolean, default=False)
+    # ticket_statuses_tracking = relationship('TicketStatusTracking', backref='ticket_status')
+    # user_roles = relationship('AppRoleStatus',
+    #                           uselist=True,
+    #                           secondary=approlestatus_ticketstatus,
+    #                           )
 
-#     def __repr__(self):
-#         return self.name
+    def __repr__(self):
+        return self.name
 
 
 # class TicketStatusTracking(db.Model):
