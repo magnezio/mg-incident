@@ -1,5 +1,5 @@
 from sqlalchemy import (
-    Column, ForeignKey, Integer, String, Boolean, DateTime
+    Column, PrimaryKeyConstraint, ForeignKey, Integer, String, Boolean, DateTime
 )
 from sqlalchemy.sql import func
 from sqlalchemy.orm import backref, relationship
@@ -56,11 +56,14 @@ class TicketStatus(db.Model):
     name = Column(String(255), unique=True, nullable=False)
     description = Column(String(255))
     is_predefined = Column(Boolean, default=False)
+    approles = relationship(
+        'AppRole',
+        backref=backref('ticket_statuses', uselist=True, lazy='dynamic'),
+        lazy='joined',
+        secondary='ticket_status_approle',
+        uselist=True
+    )
     # ticket_statuses_tracking = relationship('TicketStatusTracking', backref='ticket_status')
-    # user_roles = relationship('AppRoleStatus',
-    #                           uselist=True,
-    #                           secondary=approlestatus_ticketstatus,
-    #                           )
 
     def __repr__(self):
         return self.name
@@ -77,3 +80,21 @@ class TicketStatus(db.Model):
 #                               nullable=False)
 #     created_by_id = Column(Integer, ForeignKey('appuser.id', ondelete='SET NULL'),
 #                            nullable=False)
+
+
+ticket_status_approle = db.Table(
+    'ticket_status_approle',
+    Column(
+        'ticket_status_id',
+        Integer,
+        ForeignKey('ticket_status.id', ondelete='SET NULL'),
+        nullable=False
+    ),
+    Column(
+        'approle_id',
+        Integer,
+        ForeignKey('approle.id', ondelete='SET NULL'),
+        nullable=False
+    ),
+    PrimaryKeyConstraint('ticket_status_id', 'approle_id')
+)
