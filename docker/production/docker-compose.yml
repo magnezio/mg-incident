@@ -1,9 +1,0 @@
-version: "3"
-
-services:
-  db:
-    image: postgres:alpine
-#    volumes:
-#      - ../../local/postgresql/data_prod:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
