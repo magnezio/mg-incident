@@ -69,8 +69,7 @@ def insert_tickets_statuses():
 
 @app.cli.command()
 def setup_roles():
-    from mg_incident.models.account import AppRole
-    from mg_incident.models import TicketStatus
+    from mg_incident.models import AppRole, TicketStatus
 
     available_statuses_for_user = []
     available_statuses_for_worker = ['In Progress', 'Pending Customer', 'Pending Vendor', 'Pending Maintenance',
