@@ -4,12 +4,13 @@ from sqlalchemy.sql.functions import current_user
 from wtforms import ValidationError
 
 from mg_incident import db, admin
-from mg_incident.auth import UserRequiredMixin
+from mg_incident.auth import AdminRequiredMixin, ManagerRequiredMixin, \
+    WorkerRequiredMixin, UserRequiredMixin
 from mg_incident.models import Ticket, TicketStatus, TicketStatusTracking, AppRole
 from mg_incident.admin_views import formatters
 
 
-class TicketView(UserRequiredMixin, ModelView):
+class TicketView(WorkerRequiredMixin, UserRequiredMixin, ModelView):
     column_list = ['id', 'name', 'from_ticket', 'assigned_to',
                    'assigned_by', 'created_by', 'created_at', 'updated_at', ]
     column_filters = [
@@ -36,7 +37,7 @@ class TicketView(UserRequiredMixin, ModelView):
             model.assigned_by = current_user
 
 
-class TicketStatusView(UserRequiredMixin, ModelView):
+class TicketStatusView(AdminRequiredMixin, ModelView):
     column_list = ['name', 'description', 'approles', ]
     column_searchable_list = ['name', 'description', ]
     column_filters = ['approles.name', ]
@@ -53,7 +54,7 @@ class TicketStatusView(UserRequiredMixin, ModelView):
             raise ValidationError('Predefined status can not be changed.')
 
 
-class TicketStatusTrackingView(UserRequiredMixin, ModelView):
+class TicketStatusTrackingView(WorkerRequiredMixin, UserRequiredMixin, ModelView):
     form_columns = ['ticket', 'ticket_status', 'description', ]
     column_filters = [
         'ticket.name', 'ticket.id', 'ticket_status.name', 'created_by.username',

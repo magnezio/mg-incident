@@ -11,7 +11,7 @@ class AppUserView(AdminRequiredMixin, ModelView):
     ]
     column_searchable_list = ['username', 'email', ]
     column_filters = ['active', 'roles', ]
-    form_columns = ['username', 'email', 'active', 'password',  ]
+    form_columns = ['username', 'email', 'active', 'password', 'roles', ]
 
 
 class AppRoleView(AdminRequiredMixin, ModelView):
