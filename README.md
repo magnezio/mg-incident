@@ -77,10 +77,6 @@ SECURITY_EMAIL_SENDER = ''
 
 That created a db user **mgincident_app** with password **masterkey** (configure at  create_user.sql) and database **mgincident_dev** with owner **mgincident_app**.
 
-**In terminal with opened virtualenv run:**
-
-`export FLASK_APP=run.py`
-
 **Insert predefined roles, ticket statuses and associate the predefined roles with predefined ticket statuses:**
 
 `flask insert_predefined_roles_for_users`
