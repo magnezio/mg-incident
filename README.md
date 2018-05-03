@@ -79,11 +79,9 @@ That created a db user **mgincident_app** with password **masterkey** (configure
 
 **Insert predefined roles, ticket statuses and associate the predefined roles with predefined ticket statuses:**
 
-`flask insert_predefined_roles_for_users`
-
-`flask insert_predefined_ticket_statuses`
-
-`flask setup_predefined_roles`
+`FLASK_APP=mg_incident/cli.py flask insert_roles`
+`FLASK_APP=mg_incident/cli.py flask insert_statuses`
+`FLASK_APP=mg_incident/cli.py flask setup_roles`
 
 **Apply migrations**
 
