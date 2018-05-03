@@ -7,7 +7,7 @@ app.config['SQLALCHEMY_ECHO'] = False
 
 @app.cli.command()
 def insert_roles():
-    from mg_incident.models.account import AppRole
+    from mg_incident.models import AppRole
 
     roles = [
         ('user', 'Can set status only for his ticket.'),
@@ -33,7 +33,7 @@ def insert_roles():
 
 @app.cli.command()
 def insert_tickets_statuses():
-    from mg_incident.models.ticket import TicketStatus
+    from mg_incident.models import TicketStatus
 
     tickets_statuses = [
         ('New', 'As soon as a customer opens a ticket, it has a status of New.'),
