@@ -8,7 +8,7 @@ from mg_incident import auth
 
 db = SQLAlchemy()
 mail = Mail()
-admin = Admin(name='MG Incidents', url='/', template_mode='bootstrap3', base_template='base.html')
+admin = Admin(name='MG Incident', url='/', template_mode='bootstrap3', base_template='base.html')
 migrate = Migrate()
 
 from mg_incident import models
