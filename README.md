@@ -77,6 +77,14 @@ SECURITY_EMAIL_SENDER = ''
 
 That created a db user **mgincident_app** with password **masterkey** (configure at  create_user.sql) and database **mgincident_dev** with owner **mgincident_app**.
 
+**Apply migrations**
+
+`flask db init`
+
+`flask db migrate`
+
+`flask db upgrade`
+
 **Insert predefined roles, ticket statuses and associate the predefined roles with predefined ticket statuses:**
 
 `FLASK_APP=mg_incident/cli.py flask insert_roles`
@@ -85,13 +93,7 @@ That created a db user **mgincident_app** with password **masterkey** (configure
 
 `FLASK_APP=mg_incident/cli.py flask setup_roles`
 
-**Apply migrations**
-
-`flask db init`
-
-`flask db migrate`
-
-`flask db upgrade`
+`FLASK_APP=mg_incident/cli.py flask create_user YOUR_USER_NAME YOUR_USER_EMAIL admin`
 
 **And run!**
 
