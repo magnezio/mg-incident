@@ -112,9 +112,9 @@ For production your should use avaliable for production wsgi server (for example
 
 http://demo.magnezio.com:5000/
 
-User: user@user.user masterkey
+User: `user@user.user`
 
-Password: masterkey
+Password: `masterkey`
 
 Admin: `superuser@superuser.superuser`
 
