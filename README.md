@@ -108,3 +108,11 @@ For production your should use avaliable for production wsgi server (for example
 
 `export MGI_DB_PASSWORD=secure_that_masterkey`
 
+**Demo**
+
+http://demo.magnezio.com:5000/
+
+User: `superuser@superuser.superuser`
+
+Password: `masterkey`
+
