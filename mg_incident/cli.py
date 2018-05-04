@@ -96,3 +96,34 @@ def setup_roles():
     except Exception as ex:
         click.echo(str(ex))
         click.echo('Error on mapping tickets statuses with users roles')
+
+
+@app.cli.command()
+@click.option('--password', prompt='User password')
+@click.option('--password_again', prompt='User password again')
+@click.argument('username')
+@click.argument('email')
+@click.argument('rolename')
+def create_user(username, email, rolename, password, password_again):
+    from sqlalchemy.sql import func
+    from flask_security.utils import encrypt_password
+    from mg_incident.models import AppUser, AppRole
+
+    if not password == password_again:
+        click.echo('Your "password" and "password again" do not match')
+        return False
+    role = AppRole.query.filter(AppRole.name==rolename).first()
+
+    if not role:
+        click.echo('Role "{}" not found'.format(rolename))
+        return False
+
+    user_password = encrypt_password(password)
+    user = AppUser(
+        username=username, email=email, password=user_password, active=True
+    )
+    user.roles.append(role)
+    user.confirmed_at = func.now()
+
+    db.session.add(user)
+    db.session.commit()
