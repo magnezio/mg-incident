@@ -71,10 +71,10 @@ def insert_tickets_statuses():
 def setup_roles():
     from mg_incident.models import AppRole, TicketStatus
 
-    available_statuses_for_user = []
-    available_statuses_for_worker = ['In Progress', 'Pending Customer', 'Pending Vendor', 'Pending Maintenance',
-                                     'Solved']
-    available_statuses_for_manager = available_statuses_for_worker + ['Transferred', 'Closed', 'New']
+    available_statuses_for_user = ['New', ]
+    available_statuses_for_worker = ['In Progress', 'Pending Customer',
+                                     'Pending Vendor', 'Pending Maintenance', 'Solved', ]
+    available_statuses_for_manager = available_statuses_for_worker + ['Transferred', 'Closed', 'New', ]
     available_statuses_for_admin = available_statuses_for_manager
 
     roles_statuses_map = {
