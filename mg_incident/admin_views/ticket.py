@@ -72,16 +72,8 @@ class TicketStatusTrackingView(WorkerRequiredMixin, UserRequiredMixin, ModelView
             AppRole.id.in_(r.id for r in current_user.roles)
         ).all()
 
-        # print('*' * 100)
-        # print(type(form.ticket_status), dir(form.ticket_status), available_statuses)
-        # print('*' * 100)
-
         if not form.ticket_status.data.name in [s.name for s in available_statuses]:
             raise ValidationError('The selected ticket status is not available for your role')
-
-
-        
-        # if form.ticket_status in current_user.rol
 
 
 admin.add_views(
