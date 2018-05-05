@@ -1,6 +1,5 @@
-from flask_admin.contrib.sqla import ModelView
 from flask_security import current_user
-from sqlalchemy.sql.functions import current_user
+from flask_admin.contrib.sqla import ModelView
 from wtforms import ValidationError
 
 from mg_incident import db, admin
@@ -30,7 +29,6 @@ class TicketView(WorkerRequiredMixin, UserRequiredMixin, ModelView):
             raise ValidationError("You can't deleting tickets that have child records")
     
     def on_model_change(self, form, model, is_created):
-        from flask_security import current_user
         if is_created:
             model.created_by = current_user
         if not model.assigned_to == form.assigned_to:
@@ -63,9 +61,19 @@ class TicketStatusTrackingView(WorkerRequiredMixin, UserRequiredMixin, ModelView
     column_type_formatters = formatters.DEFAULT_FORMATTERS
     
     def on_model_change(self, form, model, is_created):
-        from flask_security import current_user
+        from mg_incident.models import AppRole
+
         if is_created:
             model.created_by = current_user
+
+        available_statuses = db.session.query(TicketStatus.name).join(
+            TicketStatus.approles
+        ).filter(
+            AppRole.id.in_(r.id for r in current_user.roles)
+        ).all()
+
+        if not form.ticket_status.data.name in [s.name for s in available_statuses]:
+            raise ValidationError('The selected ticket status is not available for your role')
 
 
 admin.add_views(
