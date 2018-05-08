@@ -22,6 +22,7 @@ class Ticket(db.Model):
     assigned_to_id = Column(Integer, ForeignKey('appuser.id', ondelete='SET NULL'),
                             nullable=False)
     from_ticket_id = Column(Integer, ForeignKey('ticket.id', ondelete='SET NULL'))
+    latest_status_id = Column(Integer, ForeignKey('ticket_status.id', ondelete='SET NULL'))
     created_by = relationship(
         AppUser,
         backref=backref('tickets_created_by', uselist=True, lazy='dynamic'),
@@ -41,6 +42,10 @@ class Ticket(db.Model):
     from_ticket = relationship(
         'Ticket',
         backref=backref('chained_tickets', remote_side=[id, ], uselist=True, lazy='subquery'),
+        lazy='joined'
+    )
+    latest_status = relationship(
+        'TicketStatus', backref=backref('curent_tickets', uselist=True, lazy='dynamic'),
         lazy='joined'
     )
 
