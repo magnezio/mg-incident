@@ -7,13 +7,14 @@ from mg_incident.auth import AdminRequiredMixin, ManagerRequiredMixin, \
     WorkerRequiredMixin, UserRequiredMixin
 from mg_incident.models import Ticket, TicketStatus, TicketStatusTracking, AppRole
 from mg_incident.admin_views import formatters
-from mg_incident.rules.ticket import check_ticket_status_for_user
+from mg_incident.rules.ticket import check_ticket_status_for_user, update_latest_status
 
 
 class TicketView(WorkerRequiredMixin, UserRequiredMixin, ModelView):
-    column_list = ['id', 'name', 'from_ticket', 'assigned_to',
+    column_list = ['id', 'name', 'latest_status', 'from_ticket', 'assigned_to',
                    'assigned_by', 'created_by', 'created_at', 'updated_at', ]
     column_filters = [
+        'latest_status.name',
         'from_ticket.name',
         'from_ticket.id',
         'created_by.username',
@@ -67,6 +68,7 @@ class TicketStatusTrackingView(WorkerRequiredMixin, UserRequiredMixin, ModelView
             model.created_by = current_user
 
         check_ticket_status_for_user(form.ticket_status.data.name, current_user)
+        update_latest_status(form.ticket_status.data, model.ticket)
 
 
 admin.add_views(

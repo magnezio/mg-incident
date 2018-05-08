@@ -16,6 +16,10 @@ def check_ticket_status_for_user(ticket_status_name, user):
         raise ValidationError('The selected ticket status is not available for your role')
 
 
+def update_latest_status(ticket_status, ticket):
+    ticket.latest_status = ticket_status
+
+
 # status_chain = [
 #     'New',
 #     'In Progress',
