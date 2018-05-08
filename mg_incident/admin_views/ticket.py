@@ -7,6 +7,7 @@ from mg_incident.auth import AdminRequiredMixin, ManagerRequiredMixin, \
     WorkerRequiredMixin, UserRequiredMixin
 from mg_incident.models import Ticket, TicketStatus, TicketStatusTracking, AppRole
 from mg_incident.admin_views import formatters
+from mg_incident.rules.ticket import check_ticket_status_for_user
 
 
 class TicketView(WorkerRequiredMixin, UserRequiredMixin, ModelView):
@@ -20,6 +21,7 @@ class TicketView(WorkerRequiredMixin, UserRequiredMixin, ModelView):
         'assigned_to.username',
     ]
     form_columns = ['name', 'description', 'assigned_to', 'from_ticket', ]
+    inline_models = [TicketStatusTracking, ]
     column_type_formatters = formatters.DEFAULT_FORMATTERS
     can_view_details = True
     can_delete = True
@@ -61,19 +63,10 @@ class TicketStatusTrackingView(WorkerRequiredMixin, UserRequiredMixin, ModelView
     column_type_formatters = formatters.DEFAULT_FORMATTERS
     
     def on_model_change(self, form, model, is_created):
-        from mg_incident.models import AppRole
-
         if is_created:
             model.created_by = current_user
 
-        available_statuses = db.session.query(TicketStatus.name).join(
-            TicketStatus.approles
-        ).filter(
-            AppRole.id.in_(r.id for r in current_user.roles)
-        ).all()
-
-        if not form.ticket_status.data.name in [s.name for s in available_statuses]:
-            raise ValidationError('The selected ticket status is not available for your role')
+        check_ticket_status_for_user(form.ticket_status.data.name, current_user)
 
 
 admin.add_views(
