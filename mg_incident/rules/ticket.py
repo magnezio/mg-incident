@@ -1,6 +1,19 @@
 from sqlalchemy.sql import func
+from wtforms import ValidationError
 
+from mg_incident import db
 from mg_incident.models import AppRole, AppUser, Ticket, TicketStatus, TicketStatusTracking
+
+
+def check_ticket_status_for_user(ticket_status_name, user):
+    available_statuses = db.session.query(TicketStatus.name).join(
+        TicketStatus.approles
+    ).filter(
+        AppRole.id.in_(r.id for r in user.roles)
+    ).all()
+
+    if not ticket_status_name in [s.name for s in available_statuses]:
+        raise ValidationError('The selected ticket status is not available for your role')
 
 
 # status_chain = [
@@ -39,7 +52,3 @@ def get_latest_status(ticket):
         TicketStatusTracking.ticket==ticket
     ).first()
     return t.ticket_status, t.created_by
-
-
-def check_new_status(ticket_status):
-    pass
