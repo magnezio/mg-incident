@@ -3,7 +3,7 @@ Magnezio Incident Management — Is Intuitive And Open-Source Customer Support S
 
 ### Features
 * Easy to setup and use for customer and stuff;
-* Based on Python 3.5, micro framework Flask and popular Flask extensions (flask-admin, flask-security, flask-sqlalchemy and some more);
+* Based on Python 3.5+, micro framework Flask and popular Flask extensions (flask-admin, flask-security, flask-sqlalchemy and some more);
 *  Minimum settings, maximum productivity – great for small projects;
 
 ------------
