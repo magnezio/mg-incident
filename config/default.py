@@ -1,8 +1,6 @@
 import os
 
 
-DEBUG = False
-
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DB_USER = os.environ.get("MGI_DB_USER", "mgincident_app")
